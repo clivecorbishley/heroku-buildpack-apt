@@ -52,14 +52,13 @@ else
   # like>>    :repo:deb http://cz.archive.ubuntu.com/ubuntu artful main universe
   topic "Adding custom repositories"
   cat $BUILD_DIR/Aptfile | grep -s -e "^:repo:" | sed 's/^:repo:\(.*\)\s*$/\1/g' >> $APT_SOURCES
-  cat $BUILD_DIR/Aptfile | grep -s -e "^:pubkey:" | sed 's/^:pubkey:\(.*\)\s*$/\1/g' >> $APT_PUBKEYS
 fi
 
 APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
 APT_OPTIONS="$APT_OPTIONS -o dir::etc::sourcelist=$APT_SOURCES"
 
 topic "Adding public keys"
-for PUBKEY in $(cat ~/Aptfile | grep -s -e "^:pubkey:"); do
+for PUBKEY in $(cat $BUILD_DIR/Aptfile | grep -s -e "^:pubkey:"); do
   PUBKEY_SERVER=`echo $PUBKEY | grep -s -e "^:pubkey:" | sed 's/^:pubkey:\(.*\)\s*$/\1/g' | awk '{print $1}'`
   RECV_KEY=`echo $PUBKEY | grep -s -e "^:pubkey:" | sed 's/^:pubkey:\(.*\)\s*$/\1/g' | awk '{print $1}'`
   apt-key adv --keyserver $PUBKEY_SERVER --recv $RECV_KEY
