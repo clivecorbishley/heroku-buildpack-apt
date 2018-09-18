@@ -4,8 +4,8 @@
 
 testCompile() {
   cat > ${BUILD_DIR}/Aptfile <<EOF
-s3cmd
-wget
+:package:s3cmd
+:package:wget
 EOF
 
   compile
