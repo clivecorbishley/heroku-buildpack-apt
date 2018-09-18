@@ -60,7 +60,7 @@ APT_OPTIONS="$APT_OPTIONS -o dir::etc::sourcelist=$APT_SOURCES"
 topic "Adding public keys"
 for PUBKEY in $(cat $BUILD_DIR/Aptfile | grep -s -e "^:pubkey:"); do
   PUBKEY_SERVER=`echo $PUBKEY | grep -s -e "^:pubkey:" | sed 's/^:pubkey:\(.*\)\s*$/\1/g' | awk '{print $1}'`
-  RECV_KEY=`echo $PUBKEY | grep -s -e "^:pubkey:" | sed 's/^:pubkey:\(.*\)\s*$/\1/g' | awk '{print $1}'`
+  RECV_KEY=`echo $PUBKEY | grep -s -e "^:pubkey:" | sed 's/^:pubkey:\(.*\)\s*$/\1/g' | awk '{print $2}'`
   apt-key adv --keyserver $PUBKEY_SERVER --recv $RECV_KEY
 done
 
